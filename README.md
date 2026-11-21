@@ -32,5 +32,4 @@ The interface pairs editorial typography (`Fraunces`, `Plus Jakarta Sans`, `JetB
 - **Fixed Architectural Sidebar Rail**: Replaces the standard top navbar with a `96px` vertical rail (collapsing into a floating bottom dock on mobile) featuring a rotating compass emblem, live scroll-progress tracker, hover pill tooltips, ECB status indicator, and a **Calm / Full Kinetic** motion toggle.
 - **Interactive Topographical Hero Canvas**: Full-bleed HTML5 Canvas rendering animated topographical contours and liquidity currents that react to cursor movement and click shockwaves, paired with a levitating **Live Corridor Compass** widget.
 - **Pan-European Clearing Atlas**: Six interactive hub cards (`Frankfurt`, `Amsterdam`, `Paris`, `Dublin`, `Milan`, `Stockholm`) that expand horizontally to display SVG route topology and live route testing.
-- **
-- 
+
