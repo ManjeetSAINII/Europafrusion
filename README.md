@@ -6,7 +6,7 @@ Instead of a conventional dark-mode SaaS layout, this redesign uses an organic E
 
 ## Live Demo
 
-**[View Live Site](https://<your-username>.github.io/<repo-name>/)**
+**[View Live Site]https://manjeetsainii.github.io/Europafrusion**
 
 *(Replace `<your-username>` and `<repo-name>` with your GitHub details after enabling GitHub Pages.)*
 
