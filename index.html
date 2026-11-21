@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EuropaFusion — Where European Capital Flows Like Nature Intended</title>
+
+  <!-- Google Fonts: Fraunces (Organic Expressive Serif), Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Fraunces"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            linen: '#F6F2EB',
+            sandstone: '#EFE9DE',
+            pine: '#183326',
+            pineDeep: '#10241A',
+            bark: '#1F2421',
+            terracotta: '#C85D3B',
+            terracottaDark: '#A8482A',
+            ochre: '#D49E48',
+            sage: '#6E8B74',
+            moss: '#DCE5DD',
+            limestone: '#D8CFC0',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --spring: cubic-bezier(0.22, 1, 0.36, 1);
+      --bouncy: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --linen: #F6F2EB;
+      --sandstone: #EFE9DE;
+      --pine: #183326;
+      --bark: #1F2421;
+      --terracotta: #C85D3B;
+      --ochre: #D49E48;
+      --sage: #6E8B74;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--linen);
+      color: var(--bark);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Subtle Paper Grain Overlay for Tactile Organic Feel */
+    .paper-grain::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 45;
+      opacity: 0.032;
+      background-image: radial-gradient(#183326 0.75px, transparent 0.75px);
+      background-size: 16px 16px;
+    }
+
+    /* ================================================================
+       ENTRANCE CURTAIN WIPE (0.7s)
+       ================================================================ */
+    #entrance-curtain {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background-color: #183326;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.75s var(--spring), opacity 0.45s ease;
+    }
+    #entrance-curtain.curtain-open {
+      transform: translateY(-100%);
+      pointer-events: none;
+    }
+
+    /* ================================================================
+       CUSTOM MAGNETIC ORGANIC CURSOR (Desktop Pointer Devices Only)
+       ================================================================ */
+    @media (hover: hover) and (pointer: fine) {
+      #organic-cursor-ring {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 9999px;
+        border: 1.5px solid rgba(200, 93, 59, 0.65);
+        background: rgba(200, 93, 59, 0.04);
+        pointer-events: none;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translate3d(-100px, -100px, 0);
+        transition: width 0.28s var(--spring), height 0.28s var(--spring), background-color 0.28s ease, border-color 0.28s ease;
+      }
+      #organic-cursor-ring.has-label {
+        width: 82px;
+        height: 82px;
+        background: rgba(24, 51, 38, 0.92);
+        border-color: #D49E48;
+        box-shadow: 0 12px 28px rgba(24, 51, 38, 0.22);
+      }
+      #organic-cursor-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        color: #F6F2EB;
+        opacity: 0;
+        transform: scale(0.7);
+        transition: opacity 0.2s ease, transform 0.25s var(--spring);
+      }
+      #organic-cursor-ring.has-label #organic-cursor-label {
+        opacity: 1;
+        transform: scale(1);
+      }
+      #organic-cursor-dot {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        border-radius: 9999px;
+        background: #C85D3B;
+        pointer-events: none;
+        z-index: 10000;
+        transform: translate3d(-100px, -100px, 0);
+        transition: opacity 0.2s ease, transform 0.08s linear;
+      }
+      #organic-cursor-dot.hidden-dot {
+        opacity: 0;
+      }
+    }
+
+    /* ================================================================
+       STAGGERED MASKED LINE REVEALS
+       ================================================================ */
+    .line-mask {
+      display: block;
+      overflow: hidden;
+      padding-bottom: 0.08em;
+    }
+    .line-mask-inner {
+      display: block;
+      transform: translateY(115%);
+      opacity: 0;
+      transition: transform 0.9s var(--spring), opacity 0.65s ease;
+    }
+    .reveal-trigger.is-visible .line-mask-inner {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+    .reveal-fade {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s var(--spring), transform 0.8s var(--spring);
+    }
+    .reveal-fade.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ================================================================
+       LIQUID RIPPLE FILL BUTTON + DUAL SLIDING ARROW
+       ================================================================ */
+    .btn-liquid {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      transition: transform 0.35s var(--spring), color 0.35s ease, box-shadow 0.35s ease;
+    }
+    .btn-liquid::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -140%;
+      width: 170%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: var(--fill-bg, #C85D3B);
+      transform: translateX(-50%) scale(0.15);
+      transition: transform 0.6s var(--spring), bottom 0.6s var(--spring);
+      z-index: -1;
+    }
+    .btn-liquid:hover::before {
+      bottom: -45%;
+      transform: translateX(-50%) scale(1.25);
+    }
+    .btn-liquid:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px -10px rgba(24, 51, 38, 0.28);
+    }
+    .btn-liquid .arrow-track {
+      position: relative;
+      display: inline-flex;
+      width: 18px;
+      height: 18px;
+      overflow: hidden;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-liquid .arrow-primary,
+    .btn-liquid .arrow-secondary {
+      position: absolute;
+      transition: transform 0.42s var(--spring);
+    }
+    .btn-liquid .arrow-secondary {
+      transform: translate(-150%, 0);
+    }
+    .btn-liquid:hover .arrow-primary {
+      transform: translate(150%, 0);
+    }
+    .btn-liquid:hover .arrow-secondary {
+      transform: translate(0, 0);
+    }
+
+    /* ================================================================
+       HOVER SHEEN / LIGHT SWEEP & ANIMATED UNDERLINE DRAW
+       ================================================================ */
+    .sheen-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.45s var(--spring), box-shadow 0.45s ease, border-color 0.35s ease;
+    }
+    .sheen-card::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -130%;
+      width: 65%;
+      height: 220%;
+      background: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, 0.32) 50%, transparent 80%);
+      transform: rotate(12deg);
+      transition: left 0.8s var(--spring);
+      pointer-events: none;
+    }
+    .sheen-card:hover::after {
+      left: 145%;
+    }
+    .sheen-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .draw-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .draw-underline::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 1.5px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s var(--spring);
+    }
+    .draw-underline:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* ================================================================
+       SIDEBAR RAIL TOOLTIPS & ROTATING EMBLEM
+       ================================================================ */
+    @keyframes slowCompassSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .compass-spin {
+      animation: slowCompassSpin 28s linear infinite;
+    }
+    .rail-item .rail-tooltip {
+      opacity: 0;
+      transform: translateX(-10px) scale(0.95);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.3s var(--spring);
+    }
+    .rail-item:hover .rail-tooltip {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+
+    /* ================================================================
+       HERO COMPASS LEVITATION & PULSE RINGS
+       ================================================================ */
+    @keyframes floatOrganic {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(0.4deg); }
+    }
+    .levitate-organic {
+      animation: floatOrganic 6.5s ease-in-out infinite;
+    }
+    @keyframes radarExpand {
+      0% { transform: scale(0.7); opacity: 0.75; }
+      100% { transform: scale(1.65); opacity: 0; }
+    }
+    .radar-ring {
+      animation: radarExpand 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+
+    /* ================================================================
+       DUAL-DIRECTION INFINITE MARQUEE
+       ================================================================ */
+    @keyframes marqueeLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes marqueeRight {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+    .marquee-left {
+      display: flex;
+      width: max-content;
+      animation: marqueeLeft 40s linear infinite;
+    }
+    .marquee-right {
+      display: flex;
+      width: max-content;
+      animation: marqueeRight 44s linear infinite;
+    }
+    .marquee-pause:hover .marquee-left,
+    .marquee-pause:hover .marquee-right {
+      animation-play-state: paused;
+    }
+
+    /* ================================================================
+       EXPANDING PAN-EUROPEAN ATLAS CARDS (FLEX-GROW)
+       ================================================================ */
+    .atlas-card {
+      flex: 1 1 0%;
+      transition: flex-grow 0.65s var(--spring), background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, transform 0.45s var(--spring);
+    }
+    @media (min-width: 1024px) {
+      .atlas-card.is-expanded,
+      .atlas-deck:hover .atlas-card:hover {
+        flex-grow: 2.85;
+      }
+      .atlas-deck:hover .atlas-card:not(:hover) {
+        flex-grow: 0.85;
+      }
+    }
+    .atlas-card .atlas-extra {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.4s ease 0.1s, transform 0.5s var(--spring) 0.08s;
+    }
+    .atlas-card.is-expanded .atlas-extra,
+    .atlas-card:hover .atlas-extra {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ================================================================
+       3D FANNING CARD DECK (SECTION 03)
+       ================================================================ */
+    .fan-deck-stage {
+      perspective: 1400px;
+    }
+    .fan-card {
+      position: absolute;
+      inset: 0;
+      transform-origin: bottom center;
+      transition: transform 0.72s var(--spring), opacity 0.5s ease, box-shadow 0.5s ease, filter 0.45s ease;
+      will-change: transform;
+    }
+
+    /* Floating Ambient Organic Orbs in Pine Section */
+    @keyframes orbDrift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(26px, -22px) scale(1.08); }
+    }
+    .organic-orb {
+      animation: orbDrift 11s ease-in-out infinite;
+    }
+
+    /* ================================================================
+       ANIMATED SVG RIVER & COMPLIANCE FLOW
+       ================================================================ */
+    @keyframes riverFlow {
+      to { stroke-dashoffset: -64; }
+    }
+    .river-dash {
+      stroke-dasharray: 10 10;
+      animation: riverFlow 1.2s linear infinite;
+    }
+    @keyframes scanLeaf {
+      0%, 100% { transform: translateY(0); opacity: 0.25; }
+      50% { transform: translateY(56px); opacity: 1; }
+    }
+    .leaf-scanner {
+      animation: scanLeaf 2.4s ease-in-out infinite;
+    }
+
+    /* Oversized Tactile Terracotta Range Slider */
+    input[type=range].terracotta-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      background: transparent;
+      cursor: pointer;
+    }
+    input[type=range].terracotta-slider::-webkit-slider-runnable-track {
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #C85D3B 0%, #D49E48 55%, #183326 100%);
+      box-shadow: inset 0 1px 3px rgba(24, 51, 38, 0.25);
+    }
+    input[type=range].terracotta-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 30px;
+      width: 30px;
+      border-radius: 9999px;
+      background: #F6F2EB;
+      border: 4px solid #C85D3B;
+      box-shadow: 0 6px 18px rgba(200, 93, 59, 0.45);
+      margin-top: -9px;
+      transition: transform 0.22s var(--bouncy), border-color 0.2s ease;
+    }
+    input[type=range].terracotta-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.22);
+      border-color: #183326;
+    }
+
+    /* Pebble Pill Buttons */
+    .pebble-btn {
+      transition: transform 0.3s var(--bouncy), background-color 0.28s ease, color 0.28s ease, border-color 0.28s ease;
+    }
+    .pebble-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+    .pebble-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Silky Accordion Grid-Template-Rows */
+    .accordion-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.52s var(--spring), opacity 0.4s ease;
+      opacity: 0;
+    }
+    .accordion-item.is-open .accordion-body {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+    .accordion-inner {
+      overflow: hidden;
+    }
+    .accordion-icon {
+      transition: transform 0.45s var(--spring);
+    }
+    .accordion-item.is-open .accordion-icon {
+      transform: rotate(45deg);
+    }
+
+    /* Footer Kinetic Display Letters */
+    .kinetic-word span {
+      display: inline-block;
+      transition: transform 0.45s var(--bouncy), color 0.35s ease;
+    }
+    .kinetic-word:hover span:nth-child(odd) {
+      transform: translateY(-8px) rotate(-2deg);
+      color: #D49E48;
+    }
+    .kinetic-word:hover span:nth-child(even) {
+      transform: translateY(5px) rotate(2deg);
+      color: #F6F2EB;
+    }
+
+    /* Calm Motion Mode Toggle Override */
+    body.calm-motion .compass-spin,
+    body.calm-motion .levitate-organic,
+    body.calm-motion .radar-ring,
+    body.calm-motion .organic-orb,
+    body.calm-motion .marquee-left,
+    body.calm-motion .marquee-right,
+    body.calm-motion .river-dash {
+      animation-play-state: paused !important;
+    }
+  </style>
+</head>
+<body class="paper-grain bg-linen text-bark antialiased selection:bg-terracotta selection:text-linen">
+
+  <!-- ===================================================================== -->
+  <!-- 0.7s ENTRANCE CURTAIN WIPE                                            -->
+  <!-- ===================================================================== -->
+  <div id="entrance-curtain" aria-hidden="true">
+    <div class="flex flex-col items-center gap-4">
+      <svg class="w-16 h-16 text-ochre compass-spin" viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <path d="M32 6L37 27L58 32L37 37L32 58L27 37L6 32L27 27L32 6Z" fill="#C85D3B" fill-opacity="0.9"/>
+        <circle cx="32" cy="32" r="5" fill="#F6F2EB"/>
+      </svg>
+      <div class="font-serif text-2xl tracking-wide text-linen italic">EuropaFusion</div>
+      <div class="font-mono text-[10px] tracking-[0.3em] uppercase text-moss/70">Initializing 27 EU Corridors</div>
+    </div>
+  </div>
+
+  <!-- Custom Magnetic Organic Cursor (Desktop Only) -->
+  <div id="organic-cursor-ring" class="hidden md:flex">
+    <span id="organic-cursor-label">EXPLORE</span>
+  </div>
+  <div id="organic-cursor-dot" class="hidden md:block"></div>
+
+  <!-- Toast Stack (Zero alert() usage) -->
+  <div id="toast-stack" class="fixed top-5 right-5 z-50 flex flex-col gap-2.5 pointer-events-none max-w-sm"></div>
+
+  <!-- ===================================================================== -->
+  <!-- FIXED LEFT ARCHITECTURAL SIDEBAR RAIL (96px Desktop / Bottom Dock Mob)-->
+  <!-- ===================================================================== -->
+  <aside id="desktop-rail" class="hidden lg:flex fixed top-0 left-0 bottom-0 w-[96px] z-40 bg-linen/90 backdrop-blur-xl border-r border-limestone flex-col items-center justify-between py-6">
+    <!-- Top: Rotating Botanical-Compass Emblem -->
+    <a href="#horizon" data-cursor="HOME" class="group relative flex flex-col items-center gap-1.5" aria-label="EuropaFusion Home">
+      <div class="w-12 h-12 rounded-2xl bg-pine flex items-center justify-center shadow-md group-hover:bg-terracotta transition-colors duration-300">
+        <svg class="w-7 h-7 text-ochre compass-spin" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="1.4" stroke-dasharray="3 3"/>
+          <path d="M24 5L27.5 20.5L43 24L27.5 27.5L24 43L20.5 27.5L5 24L20.5 20.5L24 5Z" fill="#F6F2EB"/>
+          <circle cx="24" cy="24" r="3.2" fill="#C85D3B"/>
+        </svg>
+      </div>
+      <span class="font-mono text-[9px] font-bold tracking-[0.2em] text-pine/70">EF•27</span>
+    </a>
+
+    <!-- Center: Vertical Section Progress Line + Numbered Nav Links -->
+    <nav class="relative flex flex-col items-center gap-5 py-4" aria-label="Section Navigation">
+      <!-- Vertical Track -->
+      <div class="absolute top-2 bottom-2 left-1/2 -translate-x-1/2 w-[1.5px] bg-limestone/90 -z-10">
+        <div id="rail-progress-dot" class="absolute left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-terracotta shadow-[0_0_12px_#C85D3B] transition-all duration-300" style="top: 0%;"></div>
+      </div>
+
+      <a href="#horizon" data-section="horizon" data-cursor="VIEW" class="rail-item group relative w-10 h-10 rounded-full bg-linen border border-limestone flex items-center justify-center font-mono text-[11px] font-bold text-pine hover:bg-pine hover:text-linen hover:border-pine transition-all duration-300">
+        01
+        <span class="rail-tooltip absolute left-14 whitespace-nowrap px-3.5 py-1.5 rounded-full bg-pine text-linen font-mono text-[11px] tracking-wider shadow-lg">01 — Horizon</span>
+      </a>
+
+      <a href="#corridors" data-section="corridors" data-cursor="VIEW" class="rail-item group relative w-10 h-10 rounded-full bg-linen border border-limestone flex items-center justify-center font-mono text-[11px] font-bold text-pine hover:bg-pine hover:text-linen hover:border-pine transition-all duration-300">
+        02
+        <span class="rail-tooltip absolute left-14 whitespace-nowrap px-3.5 py-1.5 rounded-full bg-pine text-linen font-mono text-[11px] tracking-wider shadow-lg">02 — Corridors</span>
+      </a>
+
+      <a href="#stack" data-section="stack" data-cursor="VIEW" class="rail-item group relative w-10 h-10 rounded-full bg-linen border border-limestone flex items-center justify-center font-mono text-[11px] font-bold text-pine hover:bg-pine hover:text-linen hover:border-pine transition-all duration-300">
+        03
+        <span class="rail-tooltip absolute left-14 whitespace-nowrap px-3.5 py-1.5 rounded-full bg-pine text-linen font-mono text-[11px] tracking-wider shadow-lg">03 — Stack</span>
+      </a>
+
+      <a href="#flow-lab" data-section="flow-lab" data-cursor="VIEW" class="rail-item group relative w-10 h-10 rounded-full bg-linen border border-limestone flex items-center justify-center font-mono text-[11px] font-bold text-pine hover:bg-pine hover:text-linen hover:border-pine transition-all duration-300">
+        04
+        <span class="rail-tooltip absolute left-14 whitespace-nowrap px-3.5 py-1.5 rounded-full bg-pine text-linen font-mono text-[11px] tracking-wider shadow-lg">04 — Flow Lab</span>
+      </a>
+
+      <a href="#voices" data-section="voices" data-cursor="VIEW" class="rail-item group relative w-10 h-10 rounded-full bg-linen border border-limestone flex items-center justify-center font-mono text-[11px] font-bold text-pine hover:bg-pine hover:text-linen hover:border-pine transition-all duration-300">
+        05
+        <span class="rail-tooltip absolute left-14 whitespace-nowrap px-3.5 py-1.5 rounded-full bg-pine text-linen font-mono text-[11px] tracking-wider shadow-lg">05 — Voices</span>
+      </a>
+    </nav>
+
+    <!-- Bottom: ECB Status Dot + Motion Intensity Toggle + Quick Sandbox Trigger -->
+    <div class="flex flex-col items-center gap-3.5">
+      <!-- Pulsing Frankfurt/ECB Status -->
+      <div class="rail-item relative flex items-center justify-center w-8 h-8 rounded-full bg-moss/60 border border-sage/40 cursor-default">
+        <span class="w-2.5 h-2.5 rounded-full bg-sage animate-pulse"></span>
+        <span class="rail-tooltip absolute left-12 whitespace-nowrap px-3 py-1.5 rounded-full bg-pine text-linen font-mono text-[10px]">ECB FRANKFURT • LIVE 0.34s</span>
+      </div>
+
+      <!-- Motion Intensity Toggle -->
+      <button id="motion-toggle-btn" onclick="toggleMotionMode()" data-cursor="MODE" class="rail-item relative w-10 h-10 rounded-xl bg-sandstone border border-limestone hover:border-terracotta flex items-center justify-center text-pine transition cursor-pointer" aria-label="Toggle Motion Intensity">
+        <svg id="motion-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span id="motion-tooltip-text" class="rail-tooltip absolute left-14 whitespace-nowrap px-3 py-1.5 rounded-full bg-pine text-linen font-mono text-[10px]">MOTION: FULL KINETIC</span>
+      </button>
+
+      <!-- Quick Sandbox Trigger -->
+      <button onclick="openSandboxModal()" data-cursor="KEY" class="rail-item relative w-11 h-11 rounded-2xl bg-terracotta text-linen hover:bg-pine flex items-center justify-center shadow-md transition-colors duration-300 cursor-pointer" aria-label="Open Sandbox API Key Generator">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="rail-tooltip absolute left-14 whitespace-nowrap px-3 py-1.5 rounded-full bg-terracotta text-linen font-mono text-[10px] font-bold">MINT SANDBOX KEY</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Mobile Floating Bottom Pill Dock (< 1024px) -->
+  <nav class="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-md rounded-full bg-pine/95 backdrop-blur-xl border border-sage/30 px-4 py-2.5 shadow-2xl flex items-center justify-between text-linen">
+    <a href="#horizon" class="px-2.5 py-1.5 rounded-full font-mono text-[11px] hover:bg-white/10">01</a>
+    <a href="#corridors" class="px-2.5 py-1.5 rounded-full font-mono text-[11px] hover:bg-white/10">02</a>
+    <a href="#stack" class="px-2.5 py-1.5 rounded-full font-mono text-[11px] hover:bg-white/10">03</a>
+    <a href="#flow-lab" class="px-2.5 py-1.5 rounded-full font-mono text-[11px] hover:bg-white/10">04</a>
+    <a href="#voices" class="px-2.5 py-1.5 rounded-full font-mono text-[11px] hover:bg-white/10">05</a>
+    <button onclick="openSandboxModal()" class="px-3.5 py-1.5 rounded-full bg-terracotta text-linen font-mono text-[11px] font-bold">KEY</button>
+  </nav>
+
+  <!-- ===================================================================== -->
+  <!-- MAIN CONTENT CANVAS (Offset left by 96px on desktop)                  -->
+  <!-- ===================================================================== -->
+  <main class="lg:pl-[96px] pb-24 lg:pb-0">
+
+    <!-- =================================================================== -->
+    <!-- SECTION 01 — ASYMMETRIC ORGANIC HERO ("HORIZON")                    -->
+    <!-- =================================================================== -->
+    <section id="horizon" class="relative min-h-screen flex items-center overflow-hidden bg-linen border-b border-limestone">
+      <!-- Interactive Full-Bleed Topographical Liquidity Canvas -->
+      <canvas id="topo-liquidity-canvas" class="absolute inset-0 w-full h-full block"></canvas>
+
+      <!-- Subtle Editorial Corner Stamp -->
+      <div class="hidden sm:flex items-center gap-3 absolute top-7 left-6 sm:left-12 z-20 font-mono text-[11px] tracking-widest uppercase text-pine/75">
+        <span class="w-2 h-2 rounded-full bg-terracotta animate-ping"></span>
+        <span>EUROPAFUSION // EUROPEAN CLEARING ECOLOGY</span>
+      </div>
+
+      <div class="hidden sm:flex items-center gap-4 absolute top-7 right-6 sm:right-12 z-20 font-mono text-[11px] text-pine/70">
+        <span>ECB TIPS: <strong class="text-pine">0.34s</strong></span>
+        <span class="text-limestone">|</span>
+        <button onclick="openSandboxModal()" data-cursor="KEY" class="draw-underline font-semibold text-terracotta cursor-pointer">Request Sovereign Key →</button>
+      </div>
+
+      <!-- Asymmetric 12-Column Editorial Hero Layout -->
+      <div class="relative z-10 w-full max-w-[1380px] mx-auto px-6 sm:px-12 pt-24 pb-16 lg:py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+
+          <!-- Left 7 Columns: Expressive Fraunces Display & Liquid CTAs -->
+          <div class="lg:col-span-7 space-y-8">
+            <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-sandstone/90 backdrop-blur-md border border-limestone shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-sage"></span>
+              <span class="font-mono text-[11px] font-semibold tracking-wider text-pine">SEPA INSTANT • MiCA • 27 EU CORRIDORS</span>
+            </div>
+
+            <h1 class="reveal-trigger font-serif text-[2.85rem] sm:text-6xl xl:text-[4.85rem] font-semibold text-pine leading-[1.03] tracking-[-0.025em]">
+              <span class="line-mask"><span class="line-mask-inner" style="transition-delay: 0.1s;">Where European</span></span>
+              <span class="line-mask"><span class="line-mask-inner italic font-normal text-terracotta" style="transition-delay: 0.22s;">capital flows</span></span>
+              <span class="line-mask"><span class="line-mask-inner" style="transition-delay: 0.34s;">like nature intended.</span></span>
+            </h1>
+
+            <p class="reveal-fade text-base sm:text-lg text-bark/80 max-w-xl leading-relaxed">
+              An organic, sovereign settlement layer unifying all 27 EU clearing rails, autonomous MiCA &amp; PSD3 compliance, and real-time VAT OSS treasury orchestration—without correspondent bank friction.
+            </p>
+
+            <!-- Liquid Ripple Fill CTA Buttons -->
+            <div class="reveal-fade flex flex-wrap items-center gap-4 pt-1">
+              <button onclick="openSandboxModal()" data-cursor="MINT" style="--fill-bg: #C85D3B;" class="btn-liquid magnetic-el px-8 py-4 rounded-full bg-pine text-linen font-semibold text-sm sm:text-base flex items-center gap-3 cursor-pointer">
+                <span>Launch Sovereign Sandbox</span>
+                <span class="arrow-track">
+                  <span class="arrow-primary">→</span>
+                  <span class="arrow-secondary">→</span>
+                </span>
+              </button>
+
+              <a href="#flow-lab" data-cursor="EXPLORE" style="--fill-bg: #183326;" class="btn-liquid magnetic-el px-7 py-4 rounded-full bg-sandstone text-pine hover:text-linen border border-limestone font-semibold text-sm sm:text-base flex items-center gap-2.5">
+                <span>Enter Flow Lab</span>
+                <span class="arrow-track">
+                  <span class="arrow-primary">↓</span>
+                  <span class="arrow-secondary">↓</span>
+                </span>
+              </a>
+            </div>
+
+            <!-- 3 Animated Rolling Metric Counters -->
+            <div class="grid grid-cols-3 gap-4 sm:gap-6 pt-6 border-t border-limestone/90 max-w-xl">
+              <div>
+                <div class="font-mono text-2xl sm:text-3xl font-bold text-pine">
+                  <span class="hero-counter" data-target="0.34" data-dec="2">0.00</span>s
+                </div>
+                <div class="font-mono text-[10px] uppercase tracking-wider text-bark/60 mt-1">Median Settlement</div>
+              </div>
+              <div>
+                <div class="font-mono text-2xl sm:text-3xl font-bold text-terracotta">
+                  €<span class="hero-counter" data-target="4.8" data-dec="1">0.0</span>B
+                </div>
+                <div class="font-mono text-[10px] uppercase tracking-wider text-bark/60 mt-1">Monthly EU Flow</div>
+              </div>
+              <div>
+                <div class="font-mono text-2xl sm:text-3xl font-bold text-pine">
+                  <span class="hero-counter" data-target="99.998" data-dec="3">99.000</span>%
+                </div>
+                <div class="font-mono text-[10px] uppercase tracking-wider text-bark/60 mt-1">Sovereign Uptime</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right 5 Columns: Levitating Glass-and-Pine "Live Corridor Compass" -->
+          <div class="lg:col-span-5">
+            <div class="levitate-organic rounded-[2rem] bg-pine/95 backdrop-blur-xl text-linen p-6 sm:p-7 border border-sage/30 shadow-[0_32px_70px_-18px_rgba(24,51,38,0.45)] relative overflow-hidden">
+              <!-- Ambient Warm Ochre Glow -->
+              <div class="pointer-events-none absolute -top-20 -right-20 w-52 h-52 rounded-full bg-ochre/20 blur-3xl"></div>
+
+              <!-- Widget Header with Pulsing Radar Ring -->
+              <div class="flex items-center justify-between pb-5 border-b border-white/10">
+                <div class="flex items-center gap-3.5">
+                  <div class="relative w-10 h-10 flex items-center justify-center">
+                    <span class="radar-ring absolute inset-0 rounded-full border border-ochre/70"></span>
+                    <span class="w-3 h-3 rounded-full bg-terracotta shadow-[0_0_12px_#C85D3B]"></span>
+                  </div>
+                  <div>
+                    <div class="font-serif text-lg font-medium text-linen leading-tight">Live Corridor Compass</div>
+                    <div class="font-mono text-[10px] text-moss/70 tracking-wider">27 EU HUBS • ACTIVE RADAR</div>
+                  </div>
+                </div>
+                <span class="font-mono text-[10px] px-2.5 py-1 rounded-full bg-white/10 text-ochre border border-ochre/30">TIPS LIVE</span>
+              </div>
+
+              <!-- Real-Time Animated Transaction Stream -->
+              <div id="compass-tx-stream" class="my-5 space-y-2.5 min-h-[188px]">
+                <!-- Populated dynamically by JS -->
+              </div>
+
+              <!-- Interactive "Pulse Liquidity" Button -->
+              <button onclick="pulseHeroLiquidity()" data-cursor="SEND" style="--fill-bg: #D49E48;" class="btn-liquid w-full py-3.5 px-5 rounded-2xl bg-terracotta text-linen hover:text-pine font-mono text-xs font-bold tracking-widest uppercase flex items-center justify-center gap-2.5 cursor-pointer">
+                <span>✦ PULSE LIQUIDITY WAVE</span>
+                <span class="arrow-track">
+                  <span class="arrow-primary">→</span>
+                  <span class="arrow-secondary">→</span>
+                </span>
+              </button>
+              <div class="mt-3 text-center font-mono text-[10px] text-moss/60">
+                Click anywhere on the canvas or pulse above to ripple 27 EU nodes
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 02 — HORIZONTAL KINETIC MARQUEE & PAN-EU CLEARING ATLAS     -->
+    <!-- =================================================================== -->
+    <section id="corridors" class="bg-linen border-b border-limestone overflow-hidden">
+      <!-- Dual-Direction Infinite Kinetic Marquee -->
+      <div class="py-5 border-b border-limestone bg-sandstone/75 marquee-pause space-y-2.5">
+        <!-- Row 1: Leftward -->
+        <div class="marquee-left flex items-center gap-4 font-mono text-xs text-pine">
+          <div class="flex items-center gap-4">
+            <span class="px-4 py-1.5 rounded-full bg-linen border border-limestone inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-sage"></span><strong>BERLIN → LISBON</strong> 0.31s • €148K</span>
+            <span class="px-4 py-1.5 rounded-full bg-linen border border-limestone inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-terracotta"></span><strong>EUR / CHF</strong> 0.9412 <em class="text-sage not-italic">+0.08%</em></span>
+            <span class="px-4 py-1.5 rounded-full bg-pine text-linen inline-flex items-center gap-2"><span class="text-ochre">✦</span> <strong>ECB TIPS DIRECT PEERING</strong></span>
+            <span class="px-4 py-1.5 rounded-full bg-linen border border-limestone inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-ochre"></span><strong>AMSTERDAM → MILAN</strong> 0.34s • €890K</span>
+            <span class="px-4 py-1.5 rounded-full bg-linen border border-limestone inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-sage"></span><strong>EUR / GBP</strong> 0.8538</span>
+            <span class="px-4 py-1.5 rounded-full bg-linen border border-limestone inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-terracotta"></span><strong>PARIS → WARSAW</strong> 0.39s • €310K</span>
+          </div>
+          <!-- Duplicate for Seamless Loop -->
+          <div class="flex items-center gap-4" aria-hidden="true">
+            <span class="px-4 py-1.5 rounded-full bg-linen border border-limestone inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-sage"></span><strong>BERLIN → LISBON</strong> 0.31s • €148K</span>
+            <span class="px-4 py-1.5 rounded-full bg-linen border border-limestone inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-terracotta"></span><strong>EUR / CHF</strong> 0.9412 <em class="text-sage not-italic">+0.08%</em></span>
+            <span class="px-4 py-1.5 rounded-full bg-pine text-linen inline-flex items-center gap-2"><span class="text-ochre">✦</span> <strong>ECB TIPS DIRECT PEERING</strong></span>
+            <span class="px-4 py-1.5 rounded-full bg-linen border border-limestone inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-ochre"></span><strong>AMSTERDAM → MILAN</strong> 0.34s • €890K</span>
+            <span class="px-4 py-1.5 rounded-full bg-linen border border-limestone inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-sage"></span><strong>EUR / GBP</strong> 0.8538</span>
+            <span class="px-4 py-1.5 rounded-full bg-linen border border-limestone inline-flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-terracotta"></span><strong>PARIS → WARSAW</strong> 0.39s • €310K</span>
+          </div>
+        </div>
+
+        <!-- Row 2: Rightward -->
+        <div class="marquee-right flex items-center gap-6 font-mono text-[11px] uppercase tracking-wider text-bark/65">
+          <div class="flex items-center gap-6">
+            <span>✓ MiCA TITLE III &amp; IV NATIVE</span>
+            <span class="text-terracotta">◆</span>
+            <span>✓ PSD3 / PSR OPEN CLEARING</span>
+            <span class="text-terracotta">◆</span>
+            <span>✓ 27 EU VAT OSS REAL-TIME SPLIT</span>
+            <span class="text-terracotta">◆</span>
+            <span>✓ DORA TIER-1 ICT RESILIENCE</span>
+            <span class="text-terracotta">◆</span>
+            <span>✓ ISO 20022 pacs.008 &amp; camt.053</span>
+            <span class="text-terracotta">◆</span>
+          </div>
+          <div class="flex items-center gap-6" aria-hidden="true">
+            <span>✓ MiCA TITLE III &amp; IV NATIVE</span>
+            <span class="text-terracotta">◆</span>
+            <span>✓ PSD3 / PSR OPEN CLEARING</span>
+            <span class="text-terracotta">◆</span>
+            <span>✓ 27 EU VAT OSS REAL-TIME SPLIT</span>
+            <span class="text-terracotta">◆</span>
+            <span>✓ DORA TIER-1 ICT RESILIENCE</span>
+            <span class="text-terracotta">◆</span>
+            <span>✓ ISO 20022 pacs.008 &amp; camt.053</span>
+            <span class="text-terracotta">◆</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Pan-European Clearing Atlas (6 Expanding Horizontal Cards) -->
+      <div class="max-w-[1380px] mx-auto px-6 sm:px-12 py-20 sm:py-28">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14 reveal-trigger">
+          <div>
+            <div class="font-mono text-xs uppercase tracking-[0.22em] text-terracotta font-semibold mb-3">02 // PAN-EUROPEAN CLEARING ATLAS</div>
+            <h2 class="font-serif text-3xl sm:text-5xl font-semibold text-pine leading-tight">
+              <span class="line-mask"><span class="line-mask-inner">Six sovereign hubs.</span></span>
+              <span class="line-mask"><span class="line-mask-inner italic font-normal text-sage" style="transition-delay: 0.12s;">One living liquidity mesh.</span></span>
+            </h2>
+          </div>
+          <p class="text-sm sm:text-base text-bark/75 max-w-md">
+            Hover or tap any European hub below to expand its live clearing topology, local IBAN rails, and test an instant settlement route.
+          </p>
+        </div>
+
+        <!-- Expanding Horizontal Atlas Deck -->
+        <div id="atlas-deck" class="atlas-deck flex flex-col lg:flex-row gap-4 lg:h-[430px] reveal-fade">
+          <!-- Populated cleanly via JS for rich interactivity -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 03 — INTERACTIVE FANNING CARD DECK ("FOUR PILLARS")         -->
+    <!-- =================================================================== -->
+    <section id="stack" class="relative py-24 sm:py-32 bg-pine text-linen overflow-hidden">
+      <!-- Floating Ambient Organic Sage & Amber Orbs -->
+      <div class="organic-orb pointer-events-none absolute -top-24 -left-24 w-[420px] h-[420px] rounded-full bg-sage/20 blur-[110px]"></div>
+      <div class="organic-orb pointer-events-none absolute bottom-0 right-10 w-[380px] h-[380px] rounded-full bg-ochre/15 blur-[100px]" style="animation-delay: -4s;"></div>
+
+      <div class="relative z-10 max-w-[1380px] mx-auto px-6 sm:px-12">
+        <div class="max-w-2xl mb-14 reveal-trigger">
+          <div class="font-mono text-xs uppercase tracking-[0.22em] text-ochre font-semibold mb-3">03 // THE FOUR PILLARS OF FUSION</div>
+          <h2 class="font-serif text-3xl sm:text-5xl font-semibold text-linen leading-tight">
+            <span class="line-mask"><span class="line-mask-inner">A tactile stack built for</span></span>
+            <span class="line-mask"><span class="line-mask-inner italic font-normal text-ochre" style="transition-delay: 0.12s;">pan-European permanence.</span></span>
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <!-- Left 5 Columns: Editorial Selector List -->
+          <div class="lg:col-span-5 space-y-3" id="pillar-selector-list">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Right 7 Columns: 3D Physical Fanning Card Deck -->
+          <div class="lg:col-span-7">
+            <div class="fan-deck-stage relative w-full h-[460px] sm:h-[490px] max-w-xl mx-auto" id="fan-deck-container">
+              <!-- 4 Stacked Physical Cards populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 04 — THE TACTILE FLOW LAB (CROSS-BORDER SIMULATOR)          -->
+    <!-- =================================================================== -->
+    <section id="flow-lab" class="py-24 sm:py-32 bg-sandstone border-y border-limestone">
+      <div class="max-w-[1380px] mx-auto px-6 sm:px-12">
+
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-14 reveal-trigger">
+          <div>
+            <div class="font-mono text-xs uppercase tracking-[0.22em] text-terracotta font-semibold mb-3">04 // THE TACTILE FLOW LAB</div>
+            <h2 class="font-serif text-3xl sm:text-5xl font-semibold text-pine leading-tight">
+              <span class="line-mask"><span class="line-mask-inner">Sculpt your corridor.</span></span>
+              <span class="line-mask"><span class="line-mask-inner italic font-normal text-terracotta" style="transition-delay: 0.12s;">Feel the zero-drag delta.</span></span>
+            </h2>
+          </div>
+          <p class="text-sm sm:text-base text-bark/75 max-w-md">
+            Select an origin currency and EU destination country using the tactile pebbles below, then sweep the terracotta slider to simulate live river settlement.
+          </p>
+        </div>
+
+        <!-- Artisan Studio Workbench Container -->
+        <div class="rounded-[2.2rem] bg-linen border border-limestone p-6 sm:p-10 shadow-[0_28px_60px_-22px_rgba(24,51,38,0.12)] reveal-fade">
+
+          <!-- Pebble Selectors + Terracotta Volume Slider -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-8 border-b border-limestone">
+            <!-- Origin Currency Pebbles -->
+            <div class="lg:col-span-4 space-y-3">
+              <div class="font-mono text-[11px] uppercase tracking-wider text-bark/60">Origin Currency</div>
+              <div class="flex flex-wrap gap-2" id="origin-pebbles">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <!-- Destination EU Country Pebbles -->
+            <div class="lg:col-span-4 space-y-3">
+              <div class="font-mono text-[11px] uppercase tracking-wider text-bark/60">Destination EU Country</div>
+              <div class="flex flex-wrap gap-2" id="dest-pebbles">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <!-- Oversized Terracotta Volume Slider -->
+            <div class="lg:col-span-4 flex flex-col justify-between bg-sandstone/70 rounded-2xl p-5 border border-limestone">
+              <div class="flex items-baseline justify-between mb-3">
+                <label for="lab-volume-slider" class="font-mono text-[11px] uppercase tracking-wider text-bark/65">Transfer Volume</label>
+                <span id="lab-volume-readout" class="font-serif text-2xl sm:text-3xl font-semibold text-terracotta">€1,500,000</span>
+              </div>
+              <input id="lab-volume-slider" data-cursor="DRAG" type="range" min="10000" max="10000000" step="10000" value="1500000" oninput="updateFlowLab()" class="terracotta-slider" />
+              <div class="flex justify-between font-mono text-[10px] text-bark/50 mt-2">
+                <span>€10K</span>
+                <span>€5M</span>
+                <span>€10M</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Animated SVG River Visualization with 3 Compliance Gates -->
+          <div class="my-8 rounded-3xl bg-pine text-linen p-5 sm:p-7 relative overflow-hidden">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4 font-mono text-[11px]">
+              <span class="text-ochre font-semibold flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-ochre animate-ping"></span>
+                LIVE LIQUIDITY RIVER SIMULATION
+              </span>
+              <span id="river-route-label" class="text-moss/80">USD → 3 COMPLIANCE GATES → GERMANY (DE IBAN)</span>
+            </div>
+
+            <div class="w-full overflow-x-auto">
+              <svg class="w-full min-w-[540px] h-[165px]" viewBox="0 0 860 165" fill="none">
+                <defs>
+                  <linearGradient id="riverGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#D49E48"/>
+                    <stop offset="50%" stop-color="#C85D3B"/>
+                    <stop offset="100%" stop-color="#6E8B74"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- Soft Ambient River Curves -->
+                <path d="M90 82 C 210 22, 310 142, 430 82 C 550 22, 650 142, 770 82" stroke="url(#riverGrad)" stroke-width="14" stroke-opacity="0.16" stroke-linecap="round"/>
+                <!-- Glowing Animated Dash-Particle River -->
+                <path d="M90 82 C 210 22, 310 142, 430 82 C 550 22, 650 142, 770 82" stroke="url(#riverGrad)" stroke-width="3.5" class="river-dash" stroke-linecap="round"/>
+                <path d="M90 82 C 210 125, 310 40, 430 82 C 550 125, 650 40, 770 82" stroke="#D49E48" stroke-width="1.6" stroke-opacity="0.55" class="river-dash" stroke-linecap="round"/>
+
+                <!-- Origin Node -->
+                <circle cx="72" cy="82" r="34" fill="#C85D3B"/>
+                <circle cx="72" cy="82" r="41" stroke="#D49E48" stroke-opacity="0.4" stroke-dasharray="4 4"/>
+                <text id="svg-origin-code" x="72" y="86" text-anchor="middle" fill="#F6F2EB" font-family="JetBrains Mono" font-size="14" font-weight="bold">USD</text>
+
+                <!-- Gate 1: KYC/AMLD6 -->
+                <g id="gate-1">
+                  <rect x="214" y="54" width="112" height="56" rx="16" fill="#10241A" stroke="#6E8B74" stroke-width="1.8"/>
+                  <text x="270" y="77" text-anchor="middle" fill="#F6F2EB" font-family="JetBrains Mono" font-size="10" font-weight="bold">KYC / AMLD6</text>
+                  <text id="gate-1-status" x="270" y="96" text-anchor="middle" fill="#D49E48" font-family="JetBrains Mono" font-size="10">✓ CLEARED 12ms</text>
+                </g>
+
+                <!-- Gate 2: MiCA/PSD3 -->
+                <g id="gate-2">
+                  <rect x="374" y="54" width="112" height="56" rx="16" fill="#10241A" stroke="#D49E48" stroke-width="1.8"/>
+                  <text x="430" y="77" text-anchor="middle" fill="#F6F2EB" font-family="JetBrains Mono" font-size="10" font-weight="bold">MiCA / PSD3</text>
+                  <text id="gate-2-status" x="430" y="96" text-anchor="middle" fill="#D49E48" font-family="JetBrains Mono" font-size="10">✓ VERIFIED</text>
+                </g>
+
+                <!-- Gate 3: SEPA TIPS -->
+                <g id="gate-3">
+                  <rect x="534" y="54" width="112" height="56" rx="16" fill="#10241A" stroke="#C85D3B" stroke-width="1.8"/>
+                  <text x="590" y="77" text-anchor="middle" fill="#F6F2EB" font-family="JetBrains Mono" font-size="10" font-weight="bold">SEPA TIPS</text>
+                  <text id="gate-3-status" x="590" y="96" text-anchor="middle" fill="#6E8B74" font-family="JetBrains Mono" font-size="10">✓ 0.34s FINAL</text>
+                </g>
+
+                <!-- Destination Node -->
+                <circle cx="788" cy="82" r="34" fill="#6E8B74"/>
+                <circle cx="788" cy="82" r="41" stroke="#DCE5DD" stroke-opacity="0.45" stroke-dasharray="4 4"/>
+                <text id="svg-dest-code" x="788" y="86" text-anchor="middle" fill="#10241A" font-family="JetBrains Mono" font-size="14" font-weight="bold">DE</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Real-Time Metrics + Smoothly Morphing Comparison Bars -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="sheen-card rounded-2xl bg-sandstone/65 border border-limestone p-5">
+                <div class="font-mono text-[10px] uppercase tracking-wider text-bark/60">SETTLEMENT TIME</div>
+                <div id="lab-speed" class="font-serif text-3xl font-semibold text-pine mt-1">0.34s</div>
+                <div class="font-mono text-[10px] text-sage font-semibold mt-1">ECB TIPS Direct</div>
+              </div>
+              <div class="sheen-card rounded-2xl bg-sandstone/65 border border-limestone p-5">
+                <div class="font-mono text-[10px] uppercase tracking-wider text-bark/60">FX MID-MARKET SPREAD</div>
+                <div id="lab-fx-rate" class="font-mono text-lg font-bold text-pine mt-2">0.04% • 0.9221</div>
+                <div class="font-mono text-[10px] text-bark/60 mt-1">Zero Lifting Fees</div>
+              </div>
+              <div class="sheen-card rounded-2xl bg-pine text-linen border border-pine p-5">
+                <div class="font-mono text-[10px] uppercase tracking-wider text-ochre">MONTHLY SAVINGS</div>
+                <div id="lab-savings" class="font-serif text-3xl font-semibold text-linen mt-1">€26,135</div>
+                <div class="font-mono text-[10px] text-moss/75 mt-1">vs. Legacy SWIFT</div>
+              </div>
+            </div>
+
+            <!-- Morphing Cost Comparison Bars -->
+            <div class="lg:col-span-5 rounded-2xl bg-sandstone/50 border border-limestone p-5 space-y-4">
+              <div>
+                <div class="flex justify-between font-mono text-xs mb-1.5">
+                  <span class="font-semibold text-pine">EuropaFusion Fee (0.04%)</span>
+                  <span id="bar-ef-fee" class="font-bold text-sage">€600</span>
+                </div>
+                <div class="w-full h-3 rounded-full bg-limestone/60 overflow-hidden">
+                  <div id="bar-ef-fill" class="h-full rounded-full bg-sage transition-all duration-700" style="width: 6%;"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between font-mono text-xs mb-1.5">
+                  <span class="font-semibold text-bark/75">Legacy Correspondent Bank (1.78%)</span>
+                  <span id="bar-legacy-fee" class="font-bold text-terracotta">€26,735</span>
+                </div>
+                <div class="w-full h-3 rounded-full bg-limestone/60 overflow-hidden">
+                  <div id="bar-legacy-fill" class="h-full rounded-full bg-terracotta transition-all duration-700" style="width: 92%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 05 — EDITORIAL VOICES & SILKY ACCORDION LEDGER              -->
+    <!-- =================================================================== -->
+    <section id="voices" class="py-24 sm:py-32 bg-linen">
+      <div class="max-w-[1380px] mx-auto px-6 sm:px-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+
+          <!-- Left 5 Columns: Sticky Interactive Testimonial Carousel with Progress Ring -->
+          <div class="lg:col-span-5 lg:sticky lg:top-16 space-y-8 reveal-fade">
+            <div>
+              <div class="font-mono text-xs uppercase tracking-[0.22em] text-terracotta font-semibold mb-3">05 // EDITORIAL VOICES</div>
+              <h2 class="font-serif text-3xl sm:text-5xl font-semibold text-pine leading-tight">
+                Trusted by Europe’s <span class="italic font-normal text-sage">quietly relentless</span> builders.
+              </h2>
+            </div>
+
+            <!-- Cross-Fade Testimonial Card -->
+            <div class="rounded-[2rem] bg-sandstone border border-limestone p-7 sm:p-8 relative overflow-hidden min-h-[295px] flex flex-col justify-between">
+              <div id="voice-slide-content" class="transition-all duration-500">
+                <!-- Populated by JS -->
+              </div>
+
+              <!-- Carousel Controls & Animated SVG Progress Ring -->
+              <div class="flex items-center justify-between pt-6 mt-6 border-t border-limestone">
+                <div class="flex items-center gap-2">
+                  <button onclick="stepVoice(-1)" data-cursor="PREV" class="w-10 h-10 rounded-full bg-linen border border-limestone hover:bg-pine hover:text-linen flex items-center justify-center transition cursor-pointer" aria-label="Previous Testimonial">←</button>
+                  <button onclick="stepVoice(1)" data-cursor="NEXT" class="w-10 h-10 rounded-full bg-linen border border-limestone hover:bg-pine hover:text-linen flex items-center justify-center transition cursor-pointer" aria-label="Next Testimonial">→</button>
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <span id="voice-index-label" class="font-mono text-xs text-bark/65">01 / 03</span>
+                  <svg class="w-8 h-8 -rotate-90" viewBox="0 0 36 36">
+                    <circle cx="18" cy="18" r="14" fill="none" stroke="#D8CFC0" stroke-width="2.5"/>
+                    <circle id="voice-progress-ring" cx="18" cy="18" r="14" fill="none" stroke="#C85D3B" stroke-width="2.5" stroke-dasharray="88" stroke-dashoffset="88" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right 7 Columns: 4 Silky-Smooth Expanding Architectural Drawers -->
+          <div class="lg:col-span-7 space-y-4 reveal-fade" id="accordion-ledger">
+            <div class="font-mono text-xs uppercase tracking-[0.22em] text-bark/55 mb-4">ARCHITECTURAL LEDGER // EXPAND SPECIFICATIONS</div>
+            <!-- Populated by JS -->
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 06 — ORGANIC FOREST PINE FOOTER                             -->
+    <!-- =================================================================== -->
+    <footer class="bg-pine text-linen pt-20 pb-12 px-6 sm:px-12 relative overflow-hidden">
+      <div class="pointer-events-none absolute -bottom-28 right-0 w-[440px] h-[440px] rounded-full bg-terracotta/15 blur-[110px]"></div>
+
+      <div class="relative z-10 max-w-[1380px] mx-auto">
+        <!-- Oversized Kinetic Typography -->
+        <div class="pb-14 border-b border-white/15 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+          <div>
+            <div class="font-mono text-xs uppercase tracking-[0.25em] text-ochre mb-4">READY FOR SOVEREIGN SCALE</div>
+            <h2 class="kinetic-word font-serif text-5xl sm:text-7xl xl:text-[6.2rem] font-semibold leading-[0.95] tracking-tight cursor-default select-none" data-cursor="FLOW">
+              <span>L</span><span>e</span><span>t</span>&nbsp;<span>C</span><span>a</span><span>p</span><span>i</span><span>t</span><span>a</span><span>l</span>&nbsp;<span class="italic font-normal text-ochre">F</span><span class="italic font-normal text-ochre">l</span><span class="italic font-normal text-ochre">o</span><span class="italic font-normal text-ochre">w</span><span>.</span>
+            </h2>
+          </div>
+
+          <button onclick="openSandboxModal()" data-cursor="MINT" style="--fill-bg: #D49E48;" class="btn-liquid magnetic-el self-start lg:self-end px-8 py-4 rounded-full bg-terracotta text-linen hover:text-pine font-semibold text-sm sm:text-base flex items-center gap-3 cursor-pointer">
+            <span>Mint Sandbox API Key</span>
+            <span class="arrow-track">
+              <span class="arrow-primary">→</span>
+              <span class="arrow-secondary">→</span>
+            </span>
+          </button>
+        </div>
+
+        <!-- Bottom Links & Sovereignty Proof -->
+        <div class="pt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 font-mono text-xs text-moss/75">
+          <div class="flex flex-wrap items-center gap-6">
+            <span class="font-serif text-lg text-linen font-semibold">EuropaFusion</span>
+            <a href="#horizon" class="draw-underline hover:text-ochre">Horizon</a>
+            <a href="#corridors" class="draw-underline hover:text-ochre">Corridors</a>
+            <a href="#stack" class="draw-underline hover:text-ochre">Stack</a>
+            <a href="#flow-lab" class="draw-underline hover:text-ochre">Flow Lab</a>
+          </div>
+          <div class="flex items-center gap-2.5 text-ochre">
+            <span class="w-2 h-2 rounded-full bg-sage animate-pulse"></span>
+            <span>FRANKFURT (DE) &amp; ZÜRICH (CH) • 100% EEA DATA RESIDENCY</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- SANDBOX API KEY GENERATOR MODAL                                       -->
+  <!-- ===================================================================== -->
+  <div id="sandbox-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-pine/65 backdrop-blur-md">
+    <div class="relative w-full max-w-lg rounded-[2rem] bg-linen border border-limestone shadow-2xl p-7 sm:p-9 overflow-hidden">
+      <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-terracotta via-ochre to-sage"></div>
+
+      <div class="flex items-center justify-between mb-6">
+        <span class="font-mono text-[11px] font-bold px-3 py-1 rounded-full bg-moss/70 text-pine">SOVEREIGN SANDBOX // EU-27</span>
+        <button onclick="closeSandboxModal()" class="w-9 h-9 rounded-full bg-sandstone hover:bg-pine hover:text-linen flex items-center justify-center text-pine transition cursor-pointer" aria-label="Close modal">✕</button>
+      </div>
+
+      <h3 class="font-serif text-3xl font-semibold text-pine mb-2">Mint Live Sandbox Key</h3>
+      <p class="text-sm text-bark/75 mb-6">
+        Provision an isolated Frankfurt HSM tenant with simulated ECB TIPS rails, VIES VAT OSS splitting, and instant webhook verification.
+      </p>
+
+      <form onsubmit="mintSandboxKey(event)" class="space-y-4">
+        <div>
+          <label class="block font-mono text-[10px] uppercase tracking-wider text-bark/65 mb-1.5">Work Email</label>
+          <input type="email" required placeholder="treasury@european-brand.eu" class="w-full px-4 py-3 rounded-xl bg-sandstone/70 border border-limestone text-sm text-pine focus:outline-none focus:border-terracotta" />
+        </div>
+        <div>
+          <label class="block font-mono text-[10px] uppercase tracking-wider text-bark/65 mb-1.5">Primary Clearing Hub</label>
+          <select id="modal-hub-select" class="w-full px-4 py-3 rounded-xl bg-sandstone/70 border border-limestone text-sm text-pine focus:outline-none focus:border-terracotta">
+            <option value="DE">Frankfurt (DE — ECB TIPS Core)</option>
+            <option value="NL">Amsterdam (NL — Benelux Rail)</option>
+            <option value="FR">Paris (FR — Banque de France)</option>
+            <option value="IT">Milan (IT — Southern Hub)</option>
+            <option value="SE">Stockholm (SE — Nordic Bridge)</option>
+          </select>
+        </div>
+        <button type="submit" style="--fill-bg: #C85D3B;" class="btn-liquid w-full py-3.5 px-6 rounded-full bg-pine text-linen font-mono text-xs font-bold tracking-widest uppercase cursor-pointer">
+          GENERATE SOVEREIGN KEY →
+        </button>
+      </form>
+
+      <!-- Animated Key Output -->
+      <div id="minted-key-panel" class="hidden mt-6 p-4 rounded-2xl bg-pine text-linen space-y-2.5">
+        <div class="flex justify-between font-mono text-[10px] text-ochre">
+          <span>● HSM KEY MINTED</span>
+          <span id="minted-tenant-tag">TENANT: EU-DE-8821</span>
+        </div>
+        <div class="flex items-center justify-between gap-2 bg-white/10 px-3 py-2.5 rounded-xl font-mono text-xs">
+          <code id="minted-key-code" class="text-linen truncate">ef_live_sbx_...</code>
+          <button type="button" onclick="copyMintedKey()" class="shrink-0 px-3 py-1 rounded-lg bg-terracotta hover:bg-ochre hover:text-pine text-linen font-bold transition cursor-pointer">COPY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- KINETIC ENGINE, CANVAS TOPOGRAPHY & INTERACTIVE MODULES               -->
+  <!-- ===================================================================== -->
+  <script>
+    // -----------------------------------------------------------------------
+    // 0. Global Motion Mode & Toast Notifications (Zero alert() usage)
+    // -----------------------------------------------------------------------
+    let isCalmMotion = false;
+
+    function showToast(message) {
+      const stack = document.getElementById('toast-stack');
+      const el = document.createElement('div');
+      el.className = 'pointer-events-auto rounded-2xl bg-pine text-linen px-4 py-3 shadow-xl border border-ochre/40 font-mono text-xs flex items-center gap-2.5 transition-all duration-300 opacity-0 -translate-y-2';
+      el.innerHTML = `<span class="w-2 h-2 rounded-full bg-ochre shrink-0"></span><span>${message}</span>`;
+      stack.appendChild(el);
+      requestAnimationFrame(() => el.classList.remove('opacity-0', '-translate-y-2'));
+      setTimeout(() => {
+        el.classList.add('opacity-0', '-translate-y-2');
+        setTimeout(() => el.remove(), 320);
+      }, 3100);
+    }
+
+    function copySafe(text, toastMsg) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast(toastMsg);
+    }
+
+    function toggleMotionMode() {
+      isCalmMotion = !isCalmMotion;
+      document.body.classList.toggle('calm-motion', isCalmMotion);
+      document.getElementById('motion-tooltip-text').textContent = isCalmMotion
+        ? 'MOTION: CALM MODE'
+        : 'MOTION: FULL KINETIC';
+      showToast(isCalmMotion ? 'MOTION // CALM MODE ENABLED' : 'MOTION // FULL KINETIC ENABLED');
+    }
+
+    // -----------------------------------------------------------------------
+    // 1. Entrance Curtain Wipe (0.7s) & Scroll Reveal Observer
+    // -----------------------------------------------------------------------
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('entrance-curtain').classList.add('curtain-open');
+        // Trigger hero masked lines right after curtain lifts
+        document.querySelectorAll('#horizon .reveal-trigger, #horizon .reveal-fade').forEach(el => {
+          el.classList.add('is-visible');
+        });
+        animateHeroCounters();
+      }, 650);
+    });
+
+    const scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.reveal-trigger, .reveal-fade').forEach(el => scrollObserver.observe(el));
+
+    // Sidebar Rail Progress Dot & Active Highlight
+    const sectionIds = ['horizon', 'corridors', 'stack', 'flow-lab', 'voices'];
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+      const dot = document.getElementById('rail-progress-dot');
+      if (dot) dot.style.top = `calc(${pct}% - 6px)`;
+
+      // Active section indicator
+      let current = sectionIds[0];
+      sectionIds.forEach(id => {
+        const sec = document.getElementById(id);
+        if (sec && sec.getBoundingClientRect().top <= window.innerHeight * 0.42) {
+          current = id;
+        }
+      });
+      document.querySelectorAll('.rail-item[data-section]').forEach(link => {
+        const isActive = link.dataset.section === current;
+        link.classList.toggle('bg-pine', isActive);
+        link.classList.toggle('text-linen', isActive);
+        link.classList.toggle('border-pine', isActive);
+        link.classList.toggle('bg-linen', !isActive);
+        link.classList.toggle('text-pine', !isActive);
+      });
+    });
+
+    function animateHeroCounters() {
+      document.querySelectorAll('.hero-counter').forEach(el => {
+        const target = parseFloat(el.dataset.target);
+        const dec = parseInt(el.dataset.dec, 10);
+        const start = performance.now();
+        const dur = 1400;
+        function tick(now) {
+          const p = Math.min((now - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 4);
+          el.textContent = (target * eased).toFixed(dec);
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      });
+    }
+
+    // -----------------------------------------------------------------------
+    // 2. Custom Magnetic Organic Cursor (Lerp + Contextual Label + Pull)
+    // -----------------------------------------------------------------------
+    const ring = document.getElementById('organic-cursor-ring');
+    const dot = document.getElementById('organic-cursor-dot');
+    const labelEl = document.getElementById('organic-cursor-label');
+    let mx = -120, my = -120, rx = -120, ry = -120;
+
+    window.addEventListener('mousemove', (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+      if (dot) dot.style.transform = `translate3d(${mx - 4}px, ${my - 4}px, 0)`;
+    });
+
+    function loopCursor() {
+      rx += (mx - rx) * 0.17;
+      ry += (my - ry) * 0.17;
+      if (ring) {
+        const half = ring.classList.contains('has-label') ? 41 : 20;
+        ring.style.transform = `translate3d(${rx - half}px, ${ry - half}px, 0)`;
+      }
+      requestAnimationFrame(loopCursor);
+    }
+    loopCursor();
+
+    function bindCursorTargets() {
+      document.querySelectorAll('[data-cursor]').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          if (!ring || !labelEl) return;
+          labelEl.textContent = el.dataset.cursor;
+          ring.classList.add('has-label');
+          if (dot) dot.classList.add('hidden-dot');
+        });
+        el.addEventListener('mouseleave', () => {
+          if (!ring) return;
+          ring.classList.remove('has-label');
+          if (dot) dot.classList.remove('hidden-dot');
+        });
+      });
+
+      // Subtle magnetic pull on primary buttons
+      document.querySelectorAll('.magnetic-el').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+          if (isCalmMotion) return;
+          const r = btn.getBoundingClientRect();
+          const dx = (e.clientX - (r.left + r.width / 2)) * 0.16;
+          const dy = (e.clientY - (r.top + r.height / 2)) * 0.16;
+          btn.style.transform = `translate(${dx}px, ${dy}px)`;
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transform = '';
+        });
+      });
+    }
+
+    // -----------------------------------------------------------------------
+    // 3. SECTION 01: Interactive Topographical Liquidity Rivers Canvas
+    // -----------------------------------------------------------------------
+    const shockwaves = [];
+    let topoMouse = { x: -999, y: -999 };
+
+    function initTopoCanvas() {
+      const canvas = document.getElementById('topo-liquidity-canvas');
+      const ctx = canvas.getContext('2d');
+      let w = 0, h = 0;
+
+      // 27 Organic European Node Positions (Normalized)
+      const nodes = Array.from({ length: 27 }, (_, i) => ({
+        nx: 0.08 + ((i * 37) % 84) / 100,
+        ny: 0.14 + ((i * 53) % 72) / 100,
+        phase: i * 0.65
+      }));
+
+      // Golden River Packets
+      const riverPackets = Array.from({ length: 14 }, (_, i) => ({
+        t: i / 14,
+        speed: 0.0022 + (i % 4) * 0.0005,
+        riverIdx: i % 3
+      }));
+
+      function resize() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = rect.width;
+        h = rect.height;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const heroSec = document.getElementById('horizon');
+      heroSec.addEventListener('mousemove', (e) => {
+        const rect = heroSec.getBoundingClientRect();
+        topoMouse.x = e.clientX - rect.left;
+        topoMouse.y = e.clientY - rect.top;
+      });
+      heroSec.addEventListener('click', (e) => {
+        if (e.target.closest('button') || e.target.closest('a')) return;
+        const rect = heroSec.getBoundingClientRect();
+        shockwaves.push({ x: e.clientX - rect.left, y: e.clientY - rect.top, r: 10, alpha: 0.75 });
+      });
+
+      let time = 0;
+      function draw() {
+        if (!isCalmMotion) time += 0.008;
+        ctx.clearRect(0, 0, w, h);
+
+        // 1. Flowing Organic Topographical Contour Waves in Sage/Limestone
+        const lines = 9;
+        for (let l = 0; l < lines; l++) {
+          ctx.beginPath();
+          const baseY = (h / (lines + 1)) * (l + 1);
+          for (let x = 0; x <= w; x += 28) {
+            const distMouse = Math.hypot(x - topoMouse.x, baseY - topoMouse.y);
+            const mousePush = distMouse < 180 ? Math.sin((1 - distMouse / 180) * Math.PI) * 26 : 0;
+            const y = baseY
+              + Math.sin(x * 0.0045 + time + l * 0.7) * 22
+              + Math.cos(x * 0.009 - time * 0.7 + l) * 10
+              - mousePush;
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.strokeStyle = l % 2 === 0 ? 'rgba(110, 139, 116, 0.22)' : 'rgba(216, 207, 192, 0.55)';
+          ctx.lineWidth = l % 3 === 0 ? 1.5 : 1;
+          ctx.stroke();
+        }
+
+        // 2. Three Glowing Terracotta & Ochre Liquidity Rivers
+        const rivers = [
+          { y1: h * 0.25, cy1: h * 0.08, cy2: h * 0.55, y2: h * 0.34, color: 'rgba(200, 93, 59, 0.28)' },
+          { y1: h * 0.62, cy1: h * 0.42, cy2: h * 0.85, y2: h * 0.52, color: 'rgba(212, 158, 72, 0.32)' },
+          { y1: h * 0.82, cy1: h * 0.68, cy2: h * 0.22, y2: h * 0.74, color: 'rgba(110, 139, 116, 0.25)' }
+        ];
+
+        rivers.forEach((rv) => {
+          ctx.beginPath();
+          ctx.moveTo(0, rv.y1);
+          ctx.bezierCurveTo(w * 0.33, rv.cy1 + Math.sin(time) * 18, w * 0.66, rv.cy2 - Math.cos(time) * 18, w, rv.y2);
+          ctx.strokeStyle = rv.color;
+          ctx.lineWidth = 2.2;
+          ctx.stroke();
+        });
+
+        // Glowing Packets Travelling Along Liquidity Rivers
+        riverPackets.forEach(p => {
+          if (!isCalmMotion) p.t = (p.t + p.speed) % 1;
+          const rv = rivers[p.riverIdx];
+          const t = p.t, inv = 1 - t;
+          const cy1 = rv.cy1 + Math.sin(time) * 18;
+          const cy2 = rv.cy2 - Math.cos(time) * 18;
+          const px = 3 * inv * inv * t * (w * 0.33) + 3 * inv * t * t * (w * 0.66) + t * t * t * w;
+          const py = inv * inv * inv * rv.y1 + 3 * inv * inv * t * cy1 + 3 * inv * t * t * cy2 + t * t * t * rv.y2;
+
+          ctx.beginPath();
+          ctx.arc(px, py, 3.2, 0, Math.PI * 2);
+          ctx.fillStyle = p.riverIdx === 0 ? '#C85D3B' : '#D49E48';
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(px, py, 9, 0, Math.PI * 2);
+          ctx.fillStyle = p.riverIdx === 0 ? 'rgba(200, 93, 59, 0.18)' : 'rgba(212, 158, 72, 0.22)';
+          ctx.fill();
+        });
+
+        // 3. 27 European Nodes
+        nodes.forEach(n => {
+          const nx = n.nx * w;
+          const ny = n.ny * h + Math.sin(time * 1.4 + n.phase) * 4;
+          ctx.beginPath();
+          ctx.arc(nx, ny, 2.4, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(24, 51, 38, 0.32)';
+          ctx.fill();
+        });
+
+        // 4. Golden Click / Pulse Shockwaves
+        for (let i = shockwaves.length - 1; i >= 0; i--) {
+          const sw = shockwaves[i];
+          sw.r += 7.5;
+          sw.alpha *= 0.955;
+          ctx.beginPath();
+          ctx.arc(sw.x, sw.y, sw.r, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(212, 158, 72, ${sw.alpha})`;
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(sw.x, sw.y, sw.r * 0.72, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(200, 93, 59, ${sw.alpha * 0.7})`;
+          ctx.lineWidth = 1.4;
+          ctx.stroke();
+
+          if (sw.alpha < 0.03) shockwaves.splice(i, 1);
+        }
+
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    // Live Corridor Compass Transaction Stream
+    const compassRoutes = [
+      { route: 'Berlin → Lisbon', amount: '€184,500', speed: '0.31s', tag: 'SEPA TIPS' },
+      { route: 'Amsterdam → Milan', amount: '€640,000', speed: '0.34s', tag: 'VAT OSS' },
+      { route: 'Paris → Warsaw', amount: '€295,200', speed: '0.37s', tag: 'MiCA OK' },
+      { route: 'Dublin → Stockholm', amount: '€512,800', speed: '0.33s', tag: 'PSD3' },
+      { route: 'Zurich → Frankfurt', amount: '€1,120,000', speed: '0.29s', tag: 'SIC5→TIPS' }
+    ];
+    let compassFeed = compassRoutes.slice(0, 3);
+
+    function renderCompassStream() {
+      const container = document.getElementById('compass-tx-stream');
+      container.innerHTML = compassFeed.map((tx, idx) => `
+        <div class="flex items-center justify-between px-4 py-3 rounded-2xl ${idx === 0 ? 'bg-white/15 border border-ochre/40' : 'bg-white/5 border border-white/10'} transition-all duration-500">
+          <div>
+            <div class="font-medium text-sm text-linen">${tx.route}</div>
+            <div class="font-mono text-[10px] text-moss/70">${tx.tag} • Finality ${tx.speed}</div>
+          </div>
+          <div class="text-right">
+            <div class="font-mono text-sm font-bold text-ochre">${tx.amount}</div>
+            <div class="font-mono text-[9px] text-sage">● SETTLED</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function pulseHeroLiquidity() {
+      const hero = document.getElementById('horizon');
+      shockwaves.push({ x: hero.clientWidth * 0.65, y: hero.clientHeight * 0.45, r: 16, alpha: 0.95 });
+      shockwaves.push({ x: hero.clientWidth * 0.35, y: hero.clientHeight * 0.52, r: 8, alpha: 0.75 });
+      const next = compassRoutes[Math.floor(Math.random() * compassRoutes.length)];
+      const randAmt = '€' + (Math.floor(Math.random() * 880 + 120) * 1000).toLocaleString('en-US');
+      compassFeed.unshift({ ...next, amount: randAmt, speed: (0.28 + Math.random() * 0.09).toFixed(2) + 's' });
+      compassFeed = compassFeed.slice(0, 3);
+      renderCompassStream();
+      showToast(`SETTLED // ${next.route} (${randAmt}) IN ${compassFeed[0].speed}`);
+    }
+
+    setInterval(() => {
+      if (isCalmMotion) return;
+      const next = compassRoutes[Math.floor(Math.random() * compassRoutes.length)];
+      compassFeed.unshift(next);
+      compassFeed = compassFeed.slice(0, 3);
+      renderCompassStream();
+    }, 4200);
+
+    // -----------------------------------------------------------------------
+    // 4. SECTION 02: Pan-European Clearing Atlas (6 Expanding Cards)
+    // -----------------------------------------------------------------------
+    const euAtlasHubs = [
+      { code: 'DE', city: 'Frankfurt', rail: 'Bundesbank TIPS Core', latency: '0.29s', vol: '€1.4B/mo', iban: 'DE89 •••• 3000', desc: 'Primary Eurozone liquidity anchor with active-active sovereign HSM settlement.' },
+      { code: 'NL', city: 'Amsterdam', rail: 'DNB Instant & iDEAL', latency: '0.32s', vol: '€890M/mo', iban: 'NL91 •••• 4410', desc: 'Benelux e-commerce & treasury clearing with automated 21% Dutch VAT OSS.' },
+      { code: 'FR', city: 'Paris', rail: 'Banque de France TIPS', latency: '0.34s', vol: '€960M/mo', iban: 'FR76 •••• 8821', desc: 'Direct French IBAN issuance and enterprise SEPA Direct Debit orchestration.' },
+      { code: 'IE', city: 'Dublin', rail: 'Central Bank IE STEP2', latency: '0.36s', vol: '€610M/mo', iban: 'IE29 •••• 1192', desc: 'Transatlantic USD-to-EUR SaaS settlement bridge with instant FX hedging.' },
+      { code: 'IT', city: 'Milan', rail: 'Banca d’Italia TIPS', latency: '0.35s', vol: '€540M/mo', iban: 'IT60 •••• 7734', desc: 'Southern European industrial & luxury supply-chain instant settlement rail.' },
+      { code: 'SE', city: 'Stockholm', rail: 'Riksbank RIX-INST', latency: '0.33s', vol: '€480M/mo', iban: 'SE45 •••• 9012', desc: 'Seamless SEK ↔ EUR Nordic liquidity corridor with sub-second conversion.' }
+    ];
+
+    function renderAtlasDeck() {
+      const deck = document.getElementById('atlas-deck');
+      deck.innerHTML = euAtlasHubs.map((h, i) => `
+        <article
+          onclick="expandAtlasCard(${i})"
+          data-cursor="INSPECT"
+          class="atlas-card ${i === 0 ? 'is-expanded bg-pine text-linen border-pine' : 'bg-sandstone text-pine border-limestone'} group rounded-[2rem] border p-6 flex flex-col justify-between overflow-hidden cursor-pointer hover:bg-pine hover:text-linen hover:border-pine"
+        >
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="font-mono text-xs font-bold tracking-widest ${i === 0 ? 'text-ochre' : 'text-terracotta'} group-hover:text-ochre">${h.code} // 0${i + 1}</div>
+              <h3 class="font-serif text-2xl sm:text-3xl font-semibold mt-1">${h.city}</h3>
+            </div>
+            <span class="font-mono text-[11px] px-2.5 py-1 rounded-full bg-white/10 border border-current/20">${h.latency}</span>
+          </div>
+
+          <!-- Animated SVG Route Line (Visible on Expand/Hover) -->
+          <div class="atlas-extra my-4 space-y-3">
+            <svg class="w-full h-12" viewBox="0 0 260 44" fill="none">
+              <path d="M8 34 Q 80 4, 145 24 T 252 12" stroke="#D49E48" stroke-width="2" class="river-dash"/>
+              <circle cx="8" cy="34" r="4" fill="#C85D3B"/>
+              <circle cx="252" cy="12" r="4.5" fill="#6E8B74"/>
+            </svg>
+            <p class="text-xs sm:text-sm opacity-85 leading-relaxed">${h.desc}</p>
+            <div class="flex items-center justify-between font-mono text-[11px] pt-2 border-t border-white/15">
+              <span>${h.iban}</span>
+              <span class="text-ochre font-bold">${h.vol}</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-3 border-t border-current/15">
+            <span class="font-mono text-[10px] uppercase tracking-wider opacity-75 truncate pr-2">${h.rail}</span>
+            <button
+              type="button"
+              onclick="event.stopPropagation(); testAtlasRoute('${h.city}', '${h.latency}')"
+              class="shrink-0 px-3 py-1.5 rounded-full bg-terracotta text-linen font-mono text-[10px] font-bold hover:bg-ochre hover:text-pine transition cursor-pointer"
+            >
+              TEST ROUTE →
+            </button>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function expandAtlasCard(idx) {
+      document.querySelectorAll('#atlas-deck .atlas-card').forEach((card, i) => {
+        const active = i === idx;
+        card.classList.toggle('is-expanded', active);
+        card.classList.toggle('bg-pine', active);
+        card.classList.toggle('text-linen', active);
+        card.classList.toggle('border-pine', active);
+        card.classList.toggle('bg-sandstone', !active);
+        card.classList.toggle('text-pine', !active);
+        card.classList.toggle('border-limestone', !active);
+      });
+    }
+
+    function testAtlasRoute(city, latency) {
+      showToast(`ROUTE VERIFIED // ${city.toUpperCase()} TIPS CLEARED IN ${latency}`);
+    }
+
+    // -----------------------------------------------------------------------
+    // 5. SECTION 03: Interactive 3D Fanning Card Deck ("Four Pillars")
+    // -----------------------------------------------------------------------
+    const fusionPillars = [
+      {
+        num: '01',
+        title: 'Instant SEPA Rails',
+        subtitle: 'Direct ECB TIPS & TARGET2 settlement across 27 member states.',
+        badge: '0.34s FINALITY',
+        svg: `<svg class="w-full h-28" viewBox="0 0 320 100" fill="none">
+          <path d="M10 55 Q 55 15, 100 55 T 190 55 T 280 55 L 310 55" stroke="#C85D3B" stroke-width="3" class="river-dash"/>
+          <path d="M10 62 Q 55 92, 100 62 T 190 62 T 280 62 L 310 62" stroke="#6E8B74" stroke-width="2" stroke-opacity="0.7" class="river-dash"/>
+          <circle cx="160" cy="55" r="10" fill="#D49E48"/>
+          <circle cx="160" cy="55" r="22" stroke="#D49E48" stroke-opacity="0.4" stroke-dasharray="4 4"/>
+        </svg>`,
+        payload: `{
+  "rail": "ECB_TIPS_INSTANT",
+  "amount": "250000.00",
+  "currency": "EUR",
+  "beneficiary_iban": "DE89370400440532013000",
+  "finality_ms": 340
+}`
+      },
+      {
+        num: '02',
+        title: 'Living Compliance Engine',
+        subtitle: 'Real-time MiCA, PSD3, AMLD6 & Travel Rule cryptographic gates.',
+        badge: '28ms SCREENING',
+        svg: `<div class="relative w-full h-28 flex items-center justify-center">
+          <svg class="w-24 h-24" viewBox="0 0 80 80" fill="none">
+            <path d="M40 8L66 18V38C66 55 55 68 40 73C25 68 14 55 14 38V18L40 8Z" fill="#DCE5DD" fill-opacity="0.35" stroke="#183326" stroke-width="2.2"/>
+            <path d="M30 41L37 48L52 31" stroke="#C85D3B" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="leaf-scanner absolute top-4 w-28 h-0.5 bg-gradient-to-r from-transparent via-terracotta to-transparent"></div>
+        </div>`,
+        payload: `{
+  "compliance_engine": "LIVING_EU_V4",
+  "mica_attestation": "VERIFIED",
+  "vies_vat_check": "VALID_DE",
+  "amld6_risk_score": 0.02
+}`
+      },
+      {
+        num: '03',
+        title: 'Multi-Currency Treasury',
+        subtitle: 'Zero-drag interbank FX locks across EUR, CHF, GBP, SEK & PLN.',
+        badge: '0.04% SPREAD',
+        svg: `<div class="w-full h-28 flex items-center justify-center">
+          <svg class="w-24 h-24 compass-spin" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="30" stroke="#183326" stroke-width="1.5" stroke-dasharray="5 5"/>
+            <circle cx="40" cy="40" r="19" stroke="#C85D3B" stroke-width="2"/>
+            <circle cx="40" cy="10" r="5" fill="#D49E48"/>
+            <circle cx="70" cy="40" r="5" fill="#183326"/>
+            <circle cx="40" cy="70" r="5" fill="#6E8B74"/>
+            <circle cx="10" cy="40" r="5" fill="#C85D3B"/>
+          </svg>
+        </div>`,
+        payload: `{
+  "fx_lock_id": "FXL-EU-9941",
+  "pair": "CHF/EUR",
+  "guaranteed_rate": 1.0624,
+  "spread_bps": 4,
+  "ttl_seconds": 3600
+}`
+      },
+      {
+        num: '04',
+        title: 'Autonomous Tax & Entity Mesh',
+        subtitle: 'Issue 27 local EU IBANs with instant VAT OSS withholding.',
+        badge: '27 LOCAL IBANS',
+        svg: `<svg class="w-full h-28" viewBox="0 0 320 100" fill="none">
+          <rect x="120" y="6" width="80" height="24" rx="8" fill="#183326"/>
+          <text x="160" y="21" text-anchor="middle" fill="#F6F2EB" font-family="JetBrains Mono" font-size="9">MASTER EUR</text>
+          <path d="M160 30 L 58 68" stroke="#C85D3B" stroke-width="2" class="river-dash"/>
+          <path d="M160 30 L 160 68" stroke="#6E8B74" stroke-width="2" class="river-dash"/>
+          <path d="M160 30 L 262 68" stroke="#D49E48" stroke-width="2" class="river-dash"/>
+          <rect x="20" y="68" width="76" height="22" rx="7" fill="#EFE9DE" stroke="#183326"/>
+          <text x="58" y="82" text-anchor="middle" fill="#183326" font-family="JetBrains Mono" font-size="9">DE 19%</text>
+          <rect x="122" y="68" width="76" height="22" rx="7" fill="#EFE9DE" stroke="#183326"/>
+          <text x="160" y="82" text-anchor="middle" fill="#183326" font-family="JetBrains Mono" font-size="9">NL 21%</text>
+          <rect x="224" y="68" width="76" height="22" rx="7" fill="#EFE9DE" stroke="#183326"/>
+          <text x="262" y="82" text-anchor="middle" fill="#183326" font-family="JetBrains Mono" font-size="9">FR 20%</text>
+        </svg>`,
+        payload: `{
+  "entity_mesh": "EU_VAT_OSS",
+  "local_iban_issued": "NL91EFUS0417164300",
+  "vat_withheld_eur": "4200.00",
+  "filing_status": "AUTO_SCHEDULED"
+}`
+      }
+    ];
+
+    let activePillar = 0;
+    let payloadOpen = [false, false, false, false];
+
+    function renderPillarSystem() {
+      const selList = document.getElementById('pillar-selector-list');
+      selList.innerHTML = fusionPillars.map((p, i) => `
+        <button
+          onmouseenter="setActivePillar(${i})"
+          onclick="setActivePillar(${i})"
+          data-cursor="SELECT"
+          class="pillar-sel-btn w-full text-left p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-start gap-4 ${i === activePillar ? 'bg-linen text-pine border-ochre shadow-xl translate-x-2' : 'bg-white/5 text-linen/80 border-white/10 hover:bg-white/10'}"
+        >
+          <span class="font-serif text-3xl font-semibold ${i === activePillar ? 'text-terracotta' : 'text-ochre/70'}">${p.num}</span>
+          <div>
+            <div class="font-serif text-xl font-semibold">${p.title}</div>
+            <p class="text-xs sm:text-sm mt-1 ${i === activePillar ? 'text-bark/75' : 'text-moss/70'}">${p.subtitle}</p>
+          </div>
+        </button>
+      `).join('');
+
+      const deck = document.getElementById('fan-deck-container');
+      deck.innerHTML = fusionPillars.map((p, i) => `
+        <div
+          id="fan-card-${i}"
+          onclick="setActivePillar(${i})"
+          class="fan-card rounded-[2.2rem] bg-linen text-bark border border-limestone p-7 sm:p-8 shadow-2xl flex flex-col justify-between cursor-pointer"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-5">
+              <span class="font-mono text-xs font-bold px-3.5 py-1 rounded-full bg-pine text-linen">${p.num} // ${p.badge}</span>
+              <span class="font-mono text-[10px] uppercase tracking-widest text-terracotta font-bold">EUROPAFUSION CORE</span>
+            </div>
+
+            <div class="rounded-2xl bg-sandstone/85 border border-limestone p-4 mb-5">
+              ${p.svg}
+            </div>
+
+            <h3 class="font-serif text-2xl sm:text-3xl font-semibold text-pine mb-2">${p.title}</h3>
+            <p class="text-sm text-bark/75 leading-relaxed">${p.subtitle}</p>
+
+            <!-- Expandable API Payload Drawer -->
+            <div id="payload-drawer-${i}" class="${payloadOpen[i] ? 'block' : 'hidden'} mt-4 rounded-xl bg-pine text-linen p-3.5 font-mono text-[11px] overflow-x-auto">
+              <div class="flex justify-between items-center mb-2 text-ochre">
+                <span>ISO 20022 / JSON PAYLOAD</span>
+                <button type="button" onclick="event.stopPropagation(); copyPillarJson(${i})" class="px-2 py-0.5 rounded bg-terracotta text-linen font-bold hover:bg-ochre hover:text-pine transition cursor-pointer">COPY</button>
+              </div>
+              <pre class="leading-relaxed">${p.payload}</pre>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-limestone flex items-center justify-between">
+            <button
+              type="button"
+              onclick="event.stopPropagation(); togglePillarPayload(${i})"
+              class="font-mono text-xs font-bold text-terracotta hover:text-pine transition cursor-pointer"
+            >
+              ${payloadOpen[i] ? '▲ HIDE API PAYLOAD' : '▼ INSPECT API PAYLOAD'}
+            </button>
+            <span class="font-mono text-[10px] text-bark/50">SOVEREIGN EU-27</span>
+          </div>
+        </div>
+      `).join('');
+
+      updateFanCardTransforms();
+    }
+
+    function updateFanCardTransforms() {
+      fusionPillars.forEach((_, i) => {
+        const card = document.getElementById(`fan-card-${i}`);
+        if (!card) return;
+        const offset = (i - activePillar + fusionPillars.length) % fusionPillars.length;
+        if (offset === 0) {
+          card.style.transform = 'translate3d(0, 0, 0) rotate(0deg) scale(1)';
+          card.style.zIndex = '30';
+          card.style.opacity = '1';
+          card.style.filter = 'brightness(1)';
+        } else if (offset === 1) {
+          card.style.transform = 'translate3d(26px, -16px, -40px) rotate(4.2deg) scale(0.95)';
+          card.style.zIndex = '20';
+          card.style.opacity = '0.92';
+          card.style.filter = 'brightness(0.95)';
+        } else if (offset === 2) {
+          card.style.transform = 'translate3d(52px, -30px, -80px) rotate(8.2deg) scale(0.9)';
+          card.style.zIndex = '10';
+          card.style.opacity = '0.78';
+          card.style.filter = 'brightness(0.9)';
+        } else {
+          card.style.transform = 'translate3d(-24px, -12px, -100px) rotate(-4.5deg) scale(0.91)';
+          card.style.zIndex = '5';
+          card.style.opacity = '0.7';
+          card.style.filter = 'brightness(0.88)';
+        }
+      });
+    }
+
+    function setActivePillar(idx) {
+      if (activePillar === idx) return;
+      activePillar = idx;
+      // Update selector buttons
+      document.querySelectorAll('.pillar-sel-btn').forEach((btn, i) => {
+        const active = i === idx;
+        btn.className = `pillar-sel-btn w-full text-left p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-start gap-4 ${active ? 'bg-linen text-pine border-ochre shadow-xl translate-x-2' : 'bg-white/5 text-linen/80 border-white/10 hover:bg-white/10'}`;
+      });
+      updateFanCardTransforms();
+    }
+
+    function togglePillarPayload(idx) {
+      payloadOpen[idx] = !payloadOpen[idx];
+      renderPillarSystem();
+    }
+
+    function copyPillarJson(idx) {
+      copySafe(fusionPillars[idx].payload, `COPIED // ${fusionPillars[idx].title.toUpperCase()} JSON`);
+    }
+
+    // -----------------------------------------------------------------------
+    // 6. SECTION 04: The Tactile Flow Lab (Simulator + SVG River)
+    // -----------------------------------------------------------------------
+    const origins = [
+      { code: 'USD', rate: 0.9221, speed: '0.34s' },
+      { code: 'GBP', rate: 1.1695, speed: '0.31s' },
+      { code: 'CHF', rate: 1.0624, speed: '0.28s' },
+      { code: 'INR', rate: 0.0110, speed: '0.74s' },
+      { code: 'SEK', rate: 0.0878, speed: '0.32s' }
+    ];
+    const dests = [
+      { code: 'DE', name: 'Germany' },
+      { code: 'FR', name: 'France' },
+      { code: 'NL', name: 'Netherlands' },
+      { code: 'ES', name: 'Spain' },
+      { code: 'IT', name: 'Italy' },
+      { code: 'IE', name: 'Ireland' }
+    ];
+
+    let selectedOrigin = origins[0];
+    let selectedDest = dests[0];
+
+    function renderLabPebbles() {
+      document.getElementById('origin-pebbles').innerHTML = origins.map(o => `
+        <button
+          onclick="pickOrigin('${o.code}')"
+          class="pebble-btn px-4 py-2 rounded-full font-mono text-xs font-bold border cursor-pointer ${o.code === selectedOrigin.code ? 'bg-pine text-linen border-pine shadow-md' : 'bg-sandstone/70 text-pine border-limestone hover:border-terracotta'}"
+        >${o.code}</button>
+      `).join('');
+
+      document.getElementById('dest-pebbles').innerHTML = dests.map(d => `
+        <button
+          onclick="pickDest('${d.code}')"
+          class="pebble-btn px-4 py-2 rounded-full font-mono text-xs font-bold border cursor-pointer ${d.code === selectedDest.code ? 'bg-terracotta text-linen border-terracotta shadow-md' : 'bg-sandstone/70 text-pine border-limestone hover:border-pine'}"
+        >${d.name}</button>
+      `).join('');
+    }
+
+    function pickOrigin(code) {
+      selectedOrigin = origins.find(o => o.code === code);
+      renderLabPebbles();
+      updateFlowLab();
+    }
+
+    function pickDest(code) {
+      selectedDest = dests.find(d => d.code === code);
+      renderLabPebbles();
+      updateFlowLab();
+    }
+
+    function updateFlowLab() {
+      const vol = parseInt(document.getElementById('lab-volume-slider').value, 10);
+      document.getElementById('lab-volume-readout').textContent = '€' + vol.toLocaleString('en-US');
+
+      const efFee = Math.round(vol * 0.0004);
+      const legacyFee = Math.round(vol * 0.0178 + 35);
+      const savings = legacyFee - efFee;
+
+      document.getElementById('lab-speed').textContent = selectedOrigin.speed;
+      document.getElementById('lab-fx-rate').textContent = `0.04% • ${selectedOrigin.rate}`;
+      document.getElementById('lab-savings').textContent = '€' + savings.toLocaleString('en-US');
+      document.getElementById('bar-ef-fee').textContent = '€' + efFee.toLocaleString('en-US');
+      document.getElementById('bar-legacy-fee').textContent = '€' + legacyFee.toLocaleString('en-US');
+
+      const efPct = Math.max(4, Math.min(18, (efFee / legacyFee) * 100));
+      const legPct = Math.min(98, 45 + (vol / 10000000) * 53);
+      document.getElementById('bar-ef-fill').style.width = `${efPct}%`;
+      document.getElementById('bar-legacy-fill').style.width = `${legPct}%`;
+
+      document.getElementById('svg-origin-code').textContent = selectedOrigin.code;
+      document.getElementById('svg-dest-code').textContent = selectedDest.code;
+      document.getElementById('river-route-label').textContent =
+        `${selectedOrigin.code} → 3 COMPLIANCE GATES → ${selectedDest.name.toUpperCase()} (${selectedDest.code} IBAN)`;
+      document.getElementById('gate-3-status').textContent = `✓ ${selectedOrigin.speed} FINAL`;
+    }
+
+    // -----------------------------------------------------------------------
+    // 7. SECTION 05: Editorial Voices Carousel + Silky Accordion Ledger
+    // -----------------------------------------------------------------------
+    const voices = [
+      {
+        quote: '“EuropaFusion replaced five regional correspondent banks with a single living treasury rail. Our Frankfurt-to-Milan supplier settlements dropped from three days to 340 milliseconds.”',
+        author: 'Clara von Berg',
+        role: 'Chief Treasury Officer, Atelier Nord (Munich)',
+        metric: '€2.4M Annual FX Saved'
+      },
+      {
+        quote: '“Launching local IBAN collections in France, Spain, and the Netherlands used to take nine months of legal groundwork. With EuropaFusion’s VAT OSS mesh, we went live in ten days.”',
+        author: 'Hendrik Vermeer',
+        role: 'VP Platform Finance, Solis Commerce (Amsterdam)',
+        metric: '10-Day Pan-EU Launch'
+      },
+      {
+        quote: '“Finally, European fintech infrastructure with sovereign Frankfurt and Zürich HSM residency that satisfies both our BaFin auditors and our engineering velocity.”',
+        author: 'Dr. Matteo Conti',
+        role: 'Head of Clearing Architecture, HelvetiaPay (Zürich)',
+        metric: '99.998% DORA Tier-1'
+      }
+    ];
+
+    let voiceIdx = 0;
+    let voiceProgress = 0;
+
+    function renderVoiceSlide() {
+      const v = voices[voiceIdx];
+      const box = document.getElementById('voice-slide-content');
+      box.style.opacity = '0';
+      box.style.transform = 'translateY(8px)';
+      setTimeout(() => {
+        box.innerHTML = `
+          <span class="inline-block font-mono text-[10px] font-bold px-3 py-1 rounded-full bg-pine text-ochre mb-5">${v.metric}</span>
+          <p class="font-serif text-xl sm:text-2xl text-pine leading-snug mb-6">${v.quote}</p>
+          <div>
+            <div class="font-semibold text-sm text-pine">${v.author}</div>
+            <div class="font-mono text-[11px] text-bark/60">${v.role}</div>
+          </div>
+        `;
+        document.getElementById('voice-index-label').textContent = `0${voiceIdx + 1} / 0${voices.length}`;
+        box.style.opacity = '1';
+        box.style.transform = 'translateY(0)';
+      }, 180);
+    }
+
+    function stepVoice(dir) {
+      voiceIdx = (voiceIdx + dir + voices.length) % voices.length;
+      voiceProgress = 0;
+      renderVoiceSlide();
+    }
+
+    // Smooth SVG Progress Ring Timer
+    setInterval(() => {
+      if (isCalmMotion) return;
+      voiceProgress += 1.4;
+      if (voiceProgress >= 100) {
+        stepVoice(1);
+      }
+      const ringEl = document.getElementById('voice-progress-ring');
+      if (ringEl) {
+        ringEl.style.strokeDashoffset = (88 - (88 * voiceProgress) / 100).toFixed(1);
+      }
+    }, 100);
+
+    const ledgerItems = [
+      {
+        num: '01',
+        title: 'Cryptographic Security & DORA Resilience',
+        tag: 'HSM FIPS 140-3',
+        body: 'Every settlement instruction is signed with mutual-TLS 1.3 and hardware-isolated keys. Automated chaos-tested failover across Frankfurt and Zürich guarantees continuous clearing under EU DORA Tier-1 regulations.'
+      },
+      {
+        num: '02',
+        title: 'Sovereign European Cloud Residency',
+        tag: '100% EEA DATA',
+        body: 'Zero transatlantic data egress. All PII, KYB commercial registry snapshots, and ISO 20022 pacs.008 ledgers remain strictly within sovereign bare-metal clusters inside Germany and Switzerland.'
+      },
+      {
+        num: '03',
+        title: 'Type-Safe Developer SDKs & Webhooks',
+        tag: 'NODE • PYTHON • GO',
+        body: 'Integrate in an afternoon with idempotent REST endpoints, native ISO 20022 XML/JSON translators, and Ed25519-signed settlement webhooks delivering deterministic state transitions.'
+      },
+      {
+        num: '04',
+        title: 'White-Glove Enterprise Onboarding',
+        tag: '14-DAY GO-LIVE',
+        body: 'Dedicated European clearing architects guide your treasury, legal, and compliance teams from sandbox minting through ECB TIPS peering and automated 27-state VAT OSS tax reconciliation.'
+      }
+    ];
+
+    function renderAccordionLedger() {
+      const wrap = document.getElementById('accordion-ledger');
+      const header = wrap.firstElementChild.outerHTML;
+      wrap.innerHTML = header + ledgerItems.map((item, i) => `
+        <div class="accordion-item ${i === 0 ? 'is-open' : ''} rounded-3xl bg-sandstone/75 border border-limestone hover:border-terracotta/60 transition-colors overflow-hidden">
+          <button onclick="toggleAccordion(${i})" data-cursor="EXPAND" class="w-full px-6 sm:px-7 py-6 flex items-center justify-between gap-4 text-left cursor-pointer">
+            <div class="flex items-center gap-4">
+              <span class="font-mono text-xs font-bold text-terracotta">${item.num}</span>
+              <div>
+                <div class="font-serif text-xl sm:text-2xl font-semibold text-pine">${item.title}</div>
+                <div class="font-mono text-[10px] tracking-wider text-sage font-semibold mt-0.5">${item.tag}</div>
+              </div>
+            </div>
+            <span class="accordion-icon shrink-0 w-10 h-10 rounded-full bg-linen border border-limestone flex items-center justify-center font-mono text-lg text-pine">+</span>
+          </button>
+          <div class="accordion-body">
+            <div class="accordion-inner px-6 sm:px-7 pb-6 pt-0 text-sm sm:text-base text-bark/80 leading-relaxed pl-14 sm:pl-16">
+              ${item.body}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleAccordion(idx) {
+      document.querySelectorAll('.accordion-item').forEach((item, i) => {
+        if (i === idx) item.classList.toggle('is-open');
+        else item.classList.remove('is-open');
+      });
+    }
+
+    // -----------------------------------------------------------------------
+    // 8. Sandbox API Key Generator Modal
+    // -----------------------------------------------------------------------
+    function openSandboxModal() {
+      const m = document.getElementById('sandbox-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+    function closeSandboxModal() {
+      const m = document.getElementById('sandbox-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+    function mintSandboxKey(e) {
+      e.preventDefault();
+      const hub = document.getElementById('modal-hub-select').value;
+      const hex = Array.from({ length: 24 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
+      const key = `ef_sovereign_${hub.toLowerCase()}_${hex}`;
+      document.getElementById('minted-tenant-tag').textContent = `TENANT: EU-${hub}-${Math.floor(1000 + Math.random() * 8999)}`;
+      document.getElementById('minted-key-code').textContent = key;
+      document.getElementById('minted-key-panel').classList.remove('hidden');
+      showToast(`MINTED // ${hub} SOVEREIGN SANDBOX KEY READY`);
+    }
+    function copyMintedKey() {
+      copySafe(document.getElementById('minted-key-code').textContent, 'COPIED // SANDBOX KEY TO CLIPBOARD');
+    }
+
+    // -----------------------------------------------------------------------
+    // Initialize All Systems
+    // -----------------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      initTopoCanvas();
+      renderCompassStream();
+      renderAtlasDeck();
+      renderPillarSystem();
+      renderLabPebbles();
+      updateFlowLab();
+      renderVoiceSlide();
+      renderAccordionLedger();
+      bindCursorTargets();
+    });
+  </script>
+</body>
+</html>
